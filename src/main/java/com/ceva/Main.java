@@ -3,6 +3,7 @@ package com.ceva;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class Main {
 
     // exponemos un endpoint de tipo get
     @GetMapping("/greet")
-    public GreetResponse geet(){
-        GreetResponse response = new GreetResponse("Hello",
+    public GreetResponse geet(
+            @RequestParam(value = "name", required = false) String name){
+        String greetingMessage = name == null || name.isBlank() ? "Hello" : "Hello " + name;
+        GreetResponse response = new GreetResponse(greetingMessage,
                 List.of("Java", "PHP", "Javascript"), new Person("John", 30, 5000));
         return response;
     }
